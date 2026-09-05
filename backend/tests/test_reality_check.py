@@ -1,6 +1,5 @@
 from backend.app.models.schemas import (
     StudentProfile,
-    Project,
     ComputeTier,
     TargetOutcome,
     RealityCheckRequest,

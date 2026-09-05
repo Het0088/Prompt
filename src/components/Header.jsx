@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Key, Code2, Cpu, GraduationCap, ShieldCheck, RotateCcw } from 'lucide-react';
+import { Key, Code2, GraduationCap, RotateCcw } from 'lucide-react';
 
 export default function Header({ onOpenApiKeyModal, onOpenPromptInspector, activeTab, setActiveTab, geminiStatus }) {
   const isGeminiActive = Boolean(geminiStatus?.configured);

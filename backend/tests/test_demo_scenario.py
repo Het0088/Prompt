@@ -4,7 +4,6 @@ from backend.app.main import app
 from backend.app.models.schemas import StudentProfile, ComputeTier
 from backend.app.core.reality_check import perform_deterministic_reality_check, RealityCheckRequest
 from backend.app.gemini.service import GeminiService
-from backend.app.gemini.schemas import ReforgeResponse, GeminiProjectReforge, VisualDiff, ReforgedProjectSpec
 
 client = TestClient(app)
 

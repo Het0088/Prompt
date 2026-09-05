@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Code2, Sparkles, Layers, ShieldAlert, Terminal, Copy, Check } from 'lucide-react';
+import { X, Code2, Sparkles, Copy, Check } from 'lucide-react';
 import { PROMPT_SYSTEM_ARCHITECTURE } from '../services/promptEngineeringDocs';
 
 export default function PromptInspectorModal({ isOpen, onClose }) {
@@ -17,8 +17,15 @@ export default function PromptInspectorModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-card" style={{ maxWidth: '920px' }} onClick={e => e.stopPropagation()}>
+    <div className="modal-backdrop" onClick={onClose} role="presentation">
+      <div 
+        className="modal-card" 
+        style={{ maxWidth: '920px' }} 
+        onClick={e => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="prompt-modal-title"
+      >
         
         {/* Header */}
         <div className="modal-header">
@@ -33,7 +40,7 @@ export default function PromptInspectorModal({ isOpen, onClose }) {
             </div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <h3 style={{ fontSize: '1.3rem', margin: 0 }}>Prompt Engineering Architecture</h3>
+                <h3 id="prompt-modal-title" style={{ fontSize: '1.3rem', margin: 0 }}>Prompt Engineering Architecture</h3>
                 <span className="badge badge-cyan" style={{ fontSize: '0.7rem' }}>
                   v{PROMPT_SYSTEM_ARCHITECTURE.version}
                 </span>
@@ -45,6 +52,7 @@ export default function PromptInspectorModal({ isOpen, onClose }) {
           </div>
           <button 
             onClick={onClose}
+            aria-label="Close dialog"
             style={{ background: 'transparent', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '4px' }}
           >
             <X size={20} />

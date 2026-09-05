@@ -3,17 +3,14 @@ import {
   Layers, 
   Database, 
   Calendar, 
-  AlertTriangle, 
   ExternalLink, 
   CheckSquare, 
   Square, 
   Server, 
   Cpu, 
   ShieldCheck, 
-  ArrowRight,
   Flame,
-  Award,
-  Sparkles
+  Award
 } from 'lucide-react';
 
 export default function ProjectBlueprint({ project, onNavigateToViva, onNavigateToSynopsis }) {

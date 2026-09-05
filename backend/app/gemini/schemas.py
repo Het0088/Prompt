@@ -1,6 +1,6 @@
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional
 from pydantic import BaseModel, Field
-from ..models.schemas import ComputeTier, StudentProfile, ConstraintEvaluationResult, ProjectEvaluationScorecard
+from ..models.schemas import ComputeTier, StudentProfile, ProjectEvaluationScorecard
 
 
 class GeminiRealityAudit(BaseModel):

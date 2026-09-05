@@ -12,8 +12,6 @@ import {
   ArrowRight, 
   RotateCcw, 
   Sparkles, 
-  ChevronDown, 
-  ChevronUp,
   FileCheck,
   ListFilter,
   MinusCircle,
@@ -21,7 +19,6 @@ import {
   RefreshCw,
   SlidersHorizontal,
   Zap,
-  BookOpen,
   Send,
   HelpCircle,
   ShieldCheck,
@@ -37,9 +34,8 @@ export default function RealityCheckView({
   onReset,
   onEditConstraints,
 }) {
-  const [showTechnicalDetails, setShowTechnicalDetails] = useState(false);
   const [showScoreModal, setShowScoreModal] = useState(false);
-  
+
   // Gemini Reforge state
   const [reforgeData, setReforgeData] = useState(null);
   const [isReforging, setIsReforging] = useState(false);
@@ -118,8 +114,6 @@ export default function RealityCheckView({
     constraints_assessment,
     skill_gap_summary,
     critical_risks = [],
-    resource_issues = [],
-    timeline_issues = [],
     scope_risk_level,
     explanation,
   } = result;
@@ -528,6 +522,20 @@ export default function RealityCheckView({
 
           </div>
 
+        </div>
+      )}
+
+      {/* Reforge Error Banner */}
+      {reforgeError && !isReforging && (
+        <div style={{
+          padding: '14px 18px',
+          background: 'rgba(244, 63, 94, 0.1)',
+          border: '1px solid rgba(244, 63, 94, 0.3)',
+          borderRadius: 'var(--radius-md)',
+          color: 'var(--rose-500)',
+          fontSize: '0.88rem',
+        }}>
+          {reforgeError}
         </div>
       )}
 
@@ -1014,8 +1022,15 @@ export default function RealityCheckView({
 
       {/* 8. COMPACT "HOW THIS SCORE WORKS" MATHEMATICAL METHODOLOGY MODAL */}
       {showScoreModal && (
-        <div className="modal-backdrop" onClick={() => setShowScoreModal(false)}>
-          <div className="modal-card" onClick={e => e.stopPropagation()} style={{ maxWidth: '640px' }}>
+        <div className="modal-backdrop" onClick={() => setShowScoreModal(false)} role="presentation">
+          <div 
+            className="modal-card" 
+            onClick={e => e.stopPropagation()} 
+            style={{ maxWidth: '640px' }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="score-modal-title"
+          >
             
             <div className="modal-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -1028,7 +1043,7 @@ export default function RealityCheckView({
                   <HelpCircle size={20} color="var(--cyan-400)" />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.25rem', margin: 0, color: '#ffffff' }}>
+                  <h3 id="score-modal-title" style={{ fontSize: '1.25rem', margin: 0, color: '#ffffff' }}>
                     Deterministic Scoring Methodology
                   </h3>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', margin: 0 }}>
@@ -1039,6 +1054,7 @@ export default function RealityCheckView({
               <button
                 type="button"
                 onClick={() => setShowScoreModal(false)}
+                aria-label="Close dialog"
                 style={{ background: 'transparent', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '4px' }}
               >
                 <X size={20} />

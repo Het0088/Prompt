@@ -110,7 +110,7 @@ export async function fetchGeminiStatus() {
     const res = await fetch(`${API_BASE_URL}/gemini/status`);
     if (!res.ok) throw new Error("Status check failed");
     return await res.json();
-  } catch (err) {
+  } catch {
     return {
       configured: false,
       status: "offline_fallback",

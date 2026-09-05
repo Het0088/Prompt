@@ -13,8 +13,6 @@ from backend.app.core.scoring import (
     calculate_time_fit,
     calculate_resource_fit,
     calculate_feasibility,
-    calculate_risk,
-    calculate_target_outcome_fit,
     calculate_composite_rank,
     evaluate_project,
 )

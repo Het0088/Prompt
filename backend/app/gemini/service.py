@@ -43,7 +43,6 @@ from ..models.schemas import (
     DifficultyLevel,
     RealityCheckRequest,
     RealityCheckResponse,
-    ProjectEvaluationScorecard,
 )
 from ..core.reality_check import perform_deterministic_reality_check
 from ..core.scoring import evaluate_project

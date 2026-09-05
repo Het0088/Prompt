@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Key, CheckCircle2, AlertCircle, Cpu, ExternalLink, ShieldCheck, Terminal } from 'lucide-react';
+import { X, Key, Cpu, ExternalLink, ShieldCheck } from 'lucide-react';
 import { fetchGeminiStatus } from '../services/apiService';
 
 export default function ApiKeyModal({ isOpen, onClose }) {
@@ -7,25 +7,32 @@ export default function ApiKeyModal({ isOpen, onClose }) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     if (isOpen) {
-      checkStatus();
+      fetchGeminiStatus().then(status => {
+        if (isMounted) {
+          setBackendStatus(status);
+          setIsLoading(false);
+        }
+      });
     }
+    return () => { isMounted = false; };
   }, [isOpen]);
-
-  const checkStatus = async () => {
-    setIsLoading(true);
-    const status = await fetchGeminiStatus();
-    setBackendStatus(status);
-    setIsLoading(false);
-  };
 
   if (!isOpen) return null;
 
   const isConfigured = backendStatus?.configured;
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-card" onClick={e => e.stopPropagation()} style={{ maxWidth: '580px' }}>
+    <div className="modal-backdrop" onClick={onClose} role="presentation">
+      <div 
+        className="modal-card" 
+        onClick={e => e.stopPropagation()} 
+        style={{ maxWidth: '580px' }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="api-modal-title"
+      >
         
         {/* Header */}
         <div className="modal-header">
@@ -39,7 +46,7 @@ export default function ApiKeyModal({ isOpen, onClose }) {
               <Key size={20} color="#818cf8" />
             </div>
             <div>
-              <h3 style={{ fontSize: '1.25rem', margin: 0 }}>Gemini Architecture & Security</h3>
+              <h3 id="api-modal-title" style={{ fontSize: '1.25rem', margin: 0 }}>Gemini Architecture & Security</h3>
               <p style={{ fontSize: '0.82rem', color: 'var(--text-tertiary)', margin: 0 }}>
                 Server-side LLM orchestration with zero browser key exposure
               </p>
@@ -47,6 +54,7 @@ export default function ApiKeyModal({ isOpen, onClose }) {
           </div>
           <button 
             onClick={onClose}
+            aria-label="Close dialog"
             style={{ background: 'transparent', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '4px' }}
           >
             <X size={20} />

@@ -3,7 +3,6 @@ from ..models.schemas import (
     StudentProfile,
     Project,
     ConstraintEvaluationResult,
-    SkillMatchResult,
     ScoreWeights,
     ProjectEvaluationScorecard,
     COMPUTE_TIER_RANK,

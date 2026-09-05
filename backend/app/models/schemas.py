@@ -87,9 +87,9 @@ class Project(BaseModel):
             clean_name = skill_name.strip().lower()
             if not clean_name:
                 continue
-            if not (1 <= level <= 5):
-                raise ValueError(f"Required proficiency for '{skill_name}' must be between 1 and 5, got {level}")
-            sanitized[clean_name] = level
+            if level <= 0:
+                continue
+            sanitized[clean_name] = min(5, max(1, int(level)))
         return sanitized
 
     @field_validator("critical_skills")

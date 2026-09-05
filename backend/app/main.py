@@ -1,5 +1,7 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 from .api.v1.endpoints import router as v1_router
 from .data.seed_projects import get_all_seed_projects
 
@@ -9,7 +11,8 @@ app = FastAPI(
     version="1.0.0",
 )
 
-import os
+# Enable GZip response compression for maximum network throughput and low latency
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Configure permitted origins for local development and production Vercel domains
 default_origins = [

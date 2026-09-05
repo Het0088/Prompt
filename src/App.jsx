@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Header from './components/Header';
 import OnboardingWizard from './components/OnboardingWizard';
 import RealityCheckView from './components/RealityCheckView';
-import ApiKeyModal from './components/ApiKeyModal';
-import PromptInspectorModal from './components/PromptInspectorModal';
 import { submitRealityCheck, fetchGeminiStatus, fetchBackendHealth } from './services/apiService';
 import { DEMO_STUDENT_PROFILE, DEMO_RAW_IDEA } from './data/demoScenario';
-import { 
-  ShieldAlert, 
-  Sparkles, 
-  RotateCcw, 
-  AlertCircle, 
-  CheckCircle2, 
-  Zap, 
-  Activity,
-  Layers,
-  Cpu
-} from 'lucide-react';
+import { Activity, AlertCircle } from 'lucide-react';
 import './App.css';
+
+const ApiKeyModal = lazy(() => import('./components/ApiKeyModal'));
+const PromptInspectorModal = lazy(() => import('./components/PromptInspectorModal'));
+
+const LOADING_STEPS = [
+  "Parsing technical keywords and required domain components...",
+  "Evaluating team hour capacity vs. project workload...",
+  "Auditing compute infrastructure against VRAM requirements...",
+  "Checking regulatory and clinical data access barriers...",
+  "Synthesizing deterministic feasibility and defense pivot...",
+];
 
 export default function App() {
   const [currentView, setCurrentView] = useState('onboarding'); // 'onboarding' | 'reality-check'
@@ -50,7 +49,7 @@ export default function App() {
             retryTimer = setTimeout(checkSystem, 3500);
           }
         }
-      } catch (err) {
+      } catch {
         if (isMounted) {
           setBackendHealthy(false);
           retryTimer = setTimeout(checkSystem, 4000);
@@ -62,7 +61,7 @@ export default function App() {
         if (isMounted && status) {
           setGeminiStatus(status);
         }
-      } catch (err) {
+      } catch {
         // Fallback status remains
       }
     };
@@ -75,27 +74,18 @@ export default function App() {
     };
   }, []);
 
-  // Animated loading feedback
-  const loadingSteps = [
-    "Parsing technical keywords and required domain components...",
-    "Evaluating team hour capacity vs. project workload...",
-    "Auditing compute infrastructure against VRAM requirements...",
-    "Checking regulatory and clinical data access barriers...",
-    "Synthesizing deterministic feasibility and defense pivot...",
-  ];
-
   useEffect(() => {
     let intervalId;
     if (isLoading) {
-      setLoadingStep(0);
       intervalId = setInterval(() => {
-        setLoadingStep(s => (s + 1) % loadingSteps.length);
+        setLoadingStep(s => (s + 1) % LOADING_STEPS.length);
       }, 700);
     }
     return () => clearInterval(intervalId);
   }, [isLoading]);
 
   const handleRunRealityCheck = async () => {
+    setLoadingStep(0);
     setIsLoading(true);
     setApiError("");
 
@@ -185,7 +175,7 @@ export default function App() {
               Conducting Project Reality Check
             </h3>
             <p style={{ fontSize: '0.9rem', color: 'var(--cyan-400)', minHeight: '24px' }}>
-              {loadingSteps[loadingStep]}
+              {LOADING_STEPS[loadingStep]}
             </p>
           </div>
         )}
@@ -275,18 +265,22 @@ export default function App() {
         </div>
       </footer>
 
-      {/* API Key Modal */}
-      <ApiKeyModal 
-        isOpen={isApiKeyModalOpen}
-        onClose={() => setIsApiKeyModalOpen(false)}
-        onKeyUpdated={() => {}}
-      />
-
-      {/* Prompt Architecture Inspector Modal */}
-      <PromptInspectorModal 
-        isOpen={isPromptInspectorOpen}
-        onClose={() => setIsPromptInspectorOpen(false)}
-      />
+      {/* API Key Modal & Prompt Architecture Inspector Modal (Lazy Loaded) */}
+      <Suspense fallback={null}>
+        {isApiKeyModalOpen && (
+          <ApiKeyModal 
+            isOpen={isApiKeyModalOpen}
+            onClose={() => setIsApiKeyModalOpen(false)}
+            onKeyUpdated={() => {}}
+          />
+        )}
+        {isPromptInspectorOpen && (
+          <PromptInspectorModal 
+            isOpen={isPromptInspectorOpen}
+            onClose={() => setIsPromptInspectorOpen(false)}
+          />
+        )}
+      </Suspense>
 
     </div>
   );

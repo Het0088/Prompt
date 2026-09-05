@@ -24,10 +24,7 @@ from backend.app.models.schemas import (
 )
 from backend.app.gemini.service import GeminiService
 from backend.app.gemini.schemas import (
-    GeminiRealityAudit,
-    GeminiProjectReforge,
     ReforgeResponse,
-    RefinementRequest,
     RefinementResponse,
 )
 

@@ -4,7 +4,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import OnboardingWizard from '../components/OnboardingWizard';
 import RealityCheckView from '../components/RealityCheckView';
 import { DEMO_STUDENT_PROFILE, DEMO_RAW_IDEA } from '../data/demoScenario';
-import * as apiService from '../services/apiService';
 
 // Mock apiService to prevent actual network calls during vitest runs
 vi.mock('../services/apiService', async () => {

@@ -4,8 +4,6 @@ from ..models.schemas import (
     Project,
     RealityCheckRequest,
     RealityCheckResponse,
-    ConstraintEvaluationResult,
-    SkillMatchResult,
     ComputeTier,
     COMPUTE_TIER_RANK,
 )
@@ -51,9 +49,6 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
     required_skills = {}
     critical_skills = []
     risk_factors = []
-    custom_transformed_title = None
-    custom_pivot = None
-    custom_hook = None
     novelty = 60.0
 
     # Pattern 1: Medical / 3D Imaging / Clinical Diagnostics
@@ -75,15 +70,6 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
             "Volumetric 3D image patch processing requires multi-GPU VRAM exceeding student compute tier",
             "Clinical evaluation metric trap: raw accuracy is rejected by medical boards in imbalanced cohorts",
         ]
-        custom_transformed_title = "Privacy-Preserving Clinical Decision-Support Prototype using Public 2D Benchmarks"
-        custom_pivot = (
-            "Pivot from unconstrained real-time whole-body 3D diagnostic claims to an edge-quantized "
-            "decision-support prototype trained on open-access benchmark slices (e.g. CAMELYON17 / PhysioNet)."
-        )
-        custom_hook = (
-            "Defend using verified open benchmarks, ROC-AUC / F1 metrics, and latency profiling "
-            "rather than claiming unvalidated clinical trial readiness."
-        )
 
     # Pattern 2: Autonomous Robotics / Drones / Self-Driving
     elif any(k in text for k in ["drone", "autonomous vehicle", "self driving", "lidar", "quadcopter", "uav"]):
@@ -99,8 +85,6 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
             "High hardware procurement expense and potential physical collision damage during test flights",
             "Real-time aerodynamic flight control latency constraints under varying weather conditions",
         ]
-        custom_transformed_title = "Gazebo/SITL-Simulated Autonomous Aerial Perception & Path Planning Agent"
-        custom_pivot = "Replace expensive physical UAV procurement with hardware-in-the-loop Gazebo simulation coupled with real sensor telemetry."
 
     # Pattern 3: Large Language Models / Training from Scratch
     elif any(k in text for k in ["train llm", "pre-train", "pretraining", "foundation model from scratch", "70b"]):
@@ -115,8 +99,6 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
             "Pre-training from scratch exceeds undergraduate compute grants by 100x",
             "Multi-node GPU communication bottlenecks and gradient divergence",
         ]
-        custom_transformed_title = "Parameter-Efficient Low-Rank Adaptation (LoRA) Domain Adapter on Distilled LLM"
-        custom_pivot = "Replace training-from-scratch with QLoRA 4-bit fine-tuning of a compact 3B/7B open model on consumer hardware."
 
     # Pattern 4: Cliché Attendance / Basic Facial Recognition
     elif any(k in text for k in ["attendance", "face recognition", "facial recognition", "student attendance"]):
@@ -130,8 +112,6 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
             "Extreme undergraduate saturation: thousands of identical OpenCV Haar-cascade GitHub repos exist; examiners routinely downgrade generic clones",
             "Fatal 2D photo/screen replay vulnerability: external examiners fail attendance apps by holding up a smartphone selfie or printed photo",
         ]
-        custom_transformed_title = "BioProof: Edge-Based rPPG Liveness-Aware Verification with Zero Video Uploads"
-        custom_pivot = "Upgrade basic Haar-cascade attendance to sub-dermal pulse liveness detection with privacy-preserving verification."
 
     # Pattern 5: Post-Quantum / Hardware Crypto
     elif any(k in text for k in ["post-quantum", "pqc", "quantum safe", "scada vpn", "kyber"]):
@@ -163,8 +143,6 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
             "Examiner trap: Lack of real-world oracle integration; decentralized apps without physical state verification are dismissed as trivial token wrappers",
             "Immutable deployment risk: Contract bugs cannot be hot-patched during viva demonstrations",
         ]
-        custom_transformed_title = "Verifiable Multi-Party Oracle State Anchoring via Layer-2 Rollup Commitments"
-        custom_pivot = "Pivot from a toy token or NFT marketplace to an auditable, zero-knowledge batch-settlement oracle on an Ethereum testnet."
 
     # Pattern 7: Generic CRUD / Full-Stack Clones (E-Commerce, Food Delivery, Chat)
     elif any(k in text for k in ["e-commerce", "ecommerce", "food delivery", "social media clone", "chat app", "store clone", "portfolio generator"]):
@@ -178,8 +156,6 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
             "Extreme undergraduate cliché: External examiners instantly downgrade standard MERN/Firebase CRUD apps for zero algorithmic novelty",
             "Lack of scalability engineering: Fails when evaluated for concurrent read/write locks, idempotency, or database indexing under high throughput",
         ]
-        custom_transformed_title = "Event-Driven Idempotent Order-Processing Engine with Distributed Dead-Letter Queuing"
-        custom_pivot = "Transform a standard CRUD storefront into a resilient distributed transaction benchmark measuring p99 tail latency under simulated concurrent loads."
 
     # Pattern 8: Cybersecurity / Network IDS / Malware Detection
     elif any(k in text for k in ["intrusion detection", "ids", "malware", "phishing", "ddos", "network traffic", "pcap", "firewall"]):
@@ -194,8 +170,6 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
             "Outdated benchmark trap: External examiners routinely penalize using 25-year-old KDD99/NSL-KDD datasets with synthetic traffic",
             "Extreme class imbalance: 99.9% benign packets cause models to exhibit high false-alarm fatigue in production networks",
         ]
-        custom_transformed_title = "Real-Time PCAP Stream Anomaly Detection with Adversarial Perturbation Hardening"
-        custom_pivot = "Upgrade static CSV classifier to streaming network flow anomaly triage on modern datasets (e.g. CIC-IDS2017) with evasion testing."
 
     # Pattern 9: IoT / Embedded Hardware / Smart Sensors
     elif any(k in text for k in ["iot", "smart home", "arduino", "esp32", "sensor network", "wearable", "smart agriculture"]):
@@ -210,8 +184,6 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
             "Hardware fragility trap: Microcontroller sensor loose wiring and brownouts frequently kill live viva demonstrations",
             "Duty-cycle power constraints: Continuous Wi-Fi telemetry drains battery power in under 4 hours without deep-sleep scheduling",
         ]
-        custom_transformed_title = "Ultra-Low-Power TinyML Sensor Anomaly Detector with Deep-Sleep Duty Cycling"
-        custom_pivot = "Replace dumb continuous cloud telemetry with local INT8 TinyML inference running on the MCU to minimize radio transmission by 95%."
 
     return Project(
         id="ad-hoc-idea",
@@ -253,7 +225,7 @@ def perform_deterministic_reality_check(
     time_fit = calculate_time_fit(student, project)
     resource_fit = calculate_resource_fit(student, project)
     feasibility = calculate_feasibility(constraints, time_fit, resource_fit, skills.skill_match_score)
-    risk = calculate_risk(project, skills.skill_match_score, time_fit, resource_fit, constraints)
+    _risk = calculate_risk(project, skills.skill_match_score, time_fit, resource_fit, constraints)
 
     # 2. Extract Specific Critical Risks & Bottlenecks
     critical_risks: List[Dict[str, str]] = []

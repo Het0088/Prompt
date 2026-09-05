@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import { 
-  User, 
-  Cpu, 
-  Sliders, 
-  Target, 
-  Lightbulb, 
   ArrowRight, 
   ArrowLeft, 
   Zap, 
   Sparkles,
-  CheckCircle2, 
-  AlertCircle,
-  HelpCircle
+  AlertCircle
 } from 'lucide-react';
 import { 
-  DEMO_STUDENT_PROFILE, 
-  DEMO_RAW_IDEA, 
   DEMO_SCENARIO_A_PROFILE, 
   DEMO_SCENARIO_A_IDEA, 
   DEMO_SCENARIO_B_PROFILE, 
@@ -127,8 +118,6 @@ export default function OnboardingWizard({
     setCurrentStep(5);
     setValidationError("");
   };
-
-  const handleLoadDemo = handleLoadDemoA; // compatibility alias
 
   const validateAndProceed = () => {
     if (currentStep === 1) {
