@@ -9,10 +9,25 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Enable CORS for local Vite dev server and browser interactions
+import os
+
+# Configure permitted origins for local development and production Vercel domains
+default_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+env_origins = os.environ.get("ALLOWED_ORIGINS", "")
+if env_origins:
+    default_origins.extend([o.strip() for o in env_origins.split(",") if o.strip()])
+
+# Enable CORS for local Vite dev server and production Vercel deployments (NO wildcard *)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "*"],
+    allow_origins=default_origins,
+    allow_origin_regex=r"^https://.*\.vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

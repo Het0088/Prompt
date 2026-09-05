@@ -4,7 +4,7 @@ import OnboardingWizard from './components/OnboardingWizard';
 import RealityCheckView from './components/RealityCheckView';
 import ApiKeyModal from './components/ApiKeyModal';
 import PromptInspectorModal from './components/PromptInspectorModal';
-import { submitRealityCheck, fetchGeminiStatus } from './services/apiService';
+import { submitRealityCheck, fetchGeminiStatus, fetchBackendHealth } from './services/apiService';
 import { DEMO_STUDENT_PROFILE, DEMO_RAW_IDEA } from './data/demoScenario';
 import { 
   ShieldAlert, 
@@ -35,12 +35,13 @@ export default function App() {
 
   // Check backend health & Gemini status on mount
   useEffect(() => {
-    fetch('/api/health')
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === 'healthy') setBackendHealthy(true);
-      })
-      .catch(() => setBackendHealthy(false));
+    fetchBackendHealth().then(data => {
+      if (data && data.status === 'healthy') {
+        setBackendHealthy(true);
+      } else {
+        setBackendHealthy(false);
+      }
+    });
 
     fetchGeminiStatus().then(status => setGeminiStatus(status));
   }, []);
@@ -117,7 +118,7 @@ export default function App() {
           <span className="pulse-dot" style={{ background: backendHealthy ? 'var(--emerald-400)' : 'var(--amber-400)' }} />
           <span>
             <strong>Deterministic Core: </strong> 
-            {backendHealthy ? 'Active (:8000)' : 'Connecting...'}
+            {backendHealthy ? 'Active' : 'Connecting...'}
           </span>
           <span style={{ color: 'var(--border-medium)', margin: '0 4px' }}>•</span>
           <span style={{ color: geminiStatus.configured ? 'var(--emerald-400)' : 'var(--amber-400)' }}>

@@ -3,9 +3,35 @@
  * Connects directly to the deterministic backend & Gemini Intelligence layer on /api/v1
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL 
-  ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/api/v1`
-  : '/api/v1';
+export function getApiBaseUrl() {
+  const customUrl = import.meta.env.VITE_API_URL;
+  if (!customUrl) return '/api/v1';
+  const clean = customUrl.trim().replace(/\/+$/, '');
+  if (clean.endsWith('/api/v1')) return clean;
+  if (clean.endsWith('/api')) return `${clean}/v1`;
+  return `${clean}/api/v1`;
+}
+
+export function getHealthUrl() {
+  const customUrl = import.meta.env.VITE_API_URL;
+  if (!customUrl) return '/api/health';
+  const clean = customUrl.trim().replace(/\/+$/, '');
+  if (clean.endsWith('/api/v1')) return `${clean.replace(/\/api\/v1$/, '')}/api/health`;
+  if (clean.endsWith('/api')) return `${clean}/health`;
+  return `${clean}/api/health`;
+}
+
+export const API_BASE_URL = getApiBaseUrl();
+
+export async function fetchBackendHealth() {
+  try {
+    const res = await fetch(getHealthUrl());
+    if (!res.ok) throw new Error(`Health check returned status ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    return { status: "offline", error: err.message };
+  }
+}
 
 function normalizeStudentProfile(studentProfile) {
   return {
