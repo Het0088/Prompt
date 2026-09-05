@@ -5,20 +5,33 @@
 
 export function getApiBaseUrl() {
   const customUrl = import.meta.env.VITE_API_URL;
-  if (!customUrl) return '/api/v1';
-  const clean = customUrl.trim().replace(/\/+$/, '');
-  if (clean.endsWith('/api/v1')) return clean;
-  if (clean.endsWith('/api')) return `${clean}/v1`;
-  return `${clean}/api/v1`;
+  if (customUrl) {
+    const clean = customUrl.trim().replace(/\/+$/, '');
+    if (clean.endsWith('/api/v1')) return clean;
+    if (clean.endsWith('/api')) return `${clean}/v1`;
+    return `${clean}/api/v1`;
+  }
+  // In production (Vercel), default directly to live deployed Render backend
+  if (import.meta.env.PROD) {
+    return 'https://prompt-l2ho.onrender.com/api/v1';
+  }
+  // In local development, Vite proxies /api to http://127.0.0.1:8000
+  return '/api/v1';
 }
 
 export function getHealthUrl() {
   const customUrl = import.meta.env.VITE_API_URL;
-  if (!customUrl) return '/api/health';
-  const clean = customUrl.trim().replace(/\/+$/, '');
-  if (clean.endsWith('/api/v1')) return `${clean.replace(/\/api\/v1$/, '')}/api/health`;
-  if (clean.endsWith('/api')) return `${clean}/health`;
-  return `${clean}/api/health`;
+  if (customUrl) {
+    const clean = customUrl.trim().replace(/\/+$/, '');
+    if (clean.endsWith('/api/v1')) return `${clean.replace(/\/api\/v1$/, '')}/api/health`;
+    if (clean.endsWith('/api')) return `${clean}/health`;
+    return `${clean}/api/health`;
+  }
+  // In production (Vercel), default directly to live deployed Render health endpoint
+  if (import.meta.env.PROD) {
+    return 'https://prompt-l2ho.onrender.com/api/health';
+  }
+  return '/api/health';
 }
 
 export const API_BASE_URL = getApiBaseUrl();
@@ -82,7 +95,7 @@ export async function submitRealityCheck(studentProfile, rawIdea, candidateProje
     if (err.name === 'AbortError') {
       return {
         success: false,
-        error: "Reality Check request timed out. Please verify that the backend server is running on port 8000.",
+        error: "Reality Check request timed out. Please verify backend service availability and connectivity.",
       };
     }
     return {

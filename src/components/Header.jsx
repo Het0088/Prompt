@@ -1,10 +1,9 @@
 import React from 'react';
 import { Sparkles, Key, Code2, Cpu, GraduationCap, ShieldCheck, RotateCcw } from 'lucide-react';
-import { getStoredApiKey, getStoredModel } from '../services/geminiService';
 
 export default function Header({ onOpenApiKeyModal, onOpenPromptInspector, activeTab, setActiveTab, geminiStatus }) {
-  const isGeminiActive = Boolean(geminiStatus?.configured || getStoredApiKey());
-  const activeModel = geminiStatus?.model || getStoredModel() || 'gemini-flash-lite-latest';
+  const isGeminiActive = Boolean(geminiStatus?.configured);
+  const activeModel = geminiStatus?.model || 'gemini-flash-lite-latest';
 
   return (
     <header className="glass-panel" style={{ padding: '16px 28px', margin: '16px 0 0', borderRadius: 'var(--radius-xl)' }}>

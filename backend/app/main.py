@@ -13,6 +13,7 @@ import os
 
 # Configure permitted origins for local development and production Vercel domains
 default_origins = [
+    "https://forgegradai.vercel.app",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:3000",

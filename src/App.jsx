@@ -33,17 +33,46 @@ export default function App() {
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
   const [isPromptInspectorOpen, setIsPromptInspectorOpen] = useState(false);
 
-  // Check backend health & Gemini status on mount
+  // Check backend health & Gemini status on mount with resilient polling for cold starts
   useEffect(() => {
-    fetchBackendHealth().then(data => {
-      if (data && data.status === 'healthy') {
-        setBackendHealthy(true);
-      } else {
-        setBackendHealthy(false);
-      }
-    });
+    let isMounted = true;
+    let retryTimer = null;
 
-    fetchGeminiStatus().then(status => setGeminiStatus(status));
+    const checkSystem = async () => {
+      try {
+        const data = await fetchBackendHealth();
+        if (isMounted) {
+          const isHealthy = data && data.status === 'healthy';
+          setBackendHealthy(isHealthy);
+          
+          if (!isHealthy) {
+            // Backend might be waking up on Render, retry in 3.5s
+            retryTimer = setTimeout(checkSystem, 3500);
+          }
+        }
+      } catch (err) {
+        if (isMounted) {
+          setBackendHealthy(false);
+          retryTimer = setTimeout(checkSystem, 4000);
+        }
+      }
+
+      try {
+        const status = await fetchGeminiStatus();
+        if (isMounted && status) {
+          setGeminiStatus(status);
+        }
+      } catch (err) {
+        // Fallback status remains
+      }
+    };
+
+    checkSystem();
+
+    return () => {
+      isMounted = false;
+      if (retryTimer) clearTimeout(retryTimer);
+    };
   }, []);
 
   // Animated loading feedback
