@@ -1,0 +1,1 @@
+# ForgeGrad AI Deterministic Core
