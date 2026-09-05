@@ -54,6 +54,7 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
     custom_transformed_title = None
     custom_pivot = None
     custom_hook = None
+    novelty = 60.0
 
     # Pattern 1: Medical / 3D Imaging / Clinical Diagnostics
     if any(k in text for k in ["3d", "mri", "ct scan", "radiology", "tumor", "cancer", "medical diagnosis", "patient vitals"]):
@@ -123,10 +124,11 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
         weeks = min(student.weeks_available, 12)
         hours = min(student.total_available_hours, 240)
         compute = ComputeTier.CPU_ONLY
-        required_skills = {"python": 3, "computer_vision": 2}
+        novelty = 25.0  # Saturated undergraduate cliché
+        required_skills = {"python": 3, "computer_vision": 3}
         risk_factors = [
-            "Extreme undergraduate saturation: thousands of identical OpenCV Haar-cascade GitHub repos exist",
-            "Vulnerable to 2D photo/screen replay spoofing during viva review",
+            "Extreme undergraduate saturation: thousands of identical OpenCV Haar-cascade GitHub repos exist; examiners routinely downgrade generic clones",
+            "Fatal 2D photo/screen replay vulnerability: external examiners fail attendance apps by holding up a smartphone selfie or printed photo",
         ]
         custom_transformed_title = "BioProof: Edge-Based rPPG Liveness-Aware Verification with Zero Video Uploads"
         custom_pivot = "Upgrade basic Haar-cascade attendance to sub-dermal pulse liveness detection with privacy-preserving verification."
@@ -144,7 +146,7 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
 
     return Project(
         id="ad-hoc-idea",
-        title=custom_transformed_title or raw_idea[:60],
+        title=raw_idea[:60].strip() or "Undergraduate Proposal",
         domain=domain,
         estimated_weeks=weeks,
         estimated_hours=hours,
@@ -153,6 +155,7 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
         required_hardware=hardware,
         required_skills=required_skills,
         critical_skills=critical_skills,
+        novelty_baseline=novelty,
         risk_factors=risk_factors,
         description=raw_idea,
     )

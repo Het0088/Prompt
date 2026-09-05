@@ -1,9 +1,10 @@
 /**
- * Official Google PromptWars Demo Scenario
- * Configured to immediately demonstrate the Reality Check capability
+ * Official Google PromptWars Demo Scenarios
+ * Configured to immediately demonstrate the Reality Check & Reforge capabilities
  */
 
-export const DEMO_STUDENT_PROFILE = {
+// SCENARIO A: Unrealistic 3D Medical Diagnostics on CPU
+export const DEMO_SCENARIO_A_PROFILE = {
   major: "Computer Science",
   academicLevel: "B.Tech Final Year",
   teamSize: 3,
@@ -23,23 +24,47 @@ export const DEMO_STUDENT_PROFILE = {
   targetOutcome: "ieee_paper",
 };
 
-export const DEMO_RAW_IDEA = "Real-time AI medical diagnosis using large 3D medical images";
+export const DEMO_SCENARIO_A_IDEA = "Real-time AI medical diagnosis using large 3D medical images";
+
+// SCENARIO B: Saturated Undergraduate Cliché - Face Recognition Attendance
+export const DEMO_SCENARIO_B_PROFILE = {
+  major: "Computer Science",
+  academicLevel: "B.Tech Final Year",
+  teamSize: 2,
+  weeksAvailable: 10,
+  weeklyHoursPerMember: 10,
+  budgetLimitUsd: 20.0,
+  computeTier: "cpu_only",
+  hardwareAvailable: [],
+  skills: {
+    python: 3,
+    opencv: 2,
+    javascript: 2,
+  },
+  targetOutcome: "industry_grade",
+};
+
+export const DEMO_SCENARIO_B_IDEA = "AI Face Recognition Attendance System";
+
+// Backwards compatibility aliases
+export const DEMO_STUDENT_PROFILE = DEMO_SCENARIO_A_PROFILE;
+export const DEMO_RAW_IDEA = DEMO_SCENARIO_A_IDEA;
 
 export const ALTERNATIVE_DEMO_IDEAS = [
   {
     label: "3D Medical Imaging (High Compute/Data Risk)",
-    idea: "Real-time AI medical diagnosis using large 3D medical images",
+    idea: DEMO_SCENARIO_A_IDEA,
     summary: "Requires Cloud GPU + HIPAA clearance + 22 weeks. Catches extreme compute and regulatory barriers.",
+  },
+  {
+    label: "Face Recognition Attendance (Undergraduate Cliché)",
+    idea: DEMO_SCENARIO_B_IDEA,
+    summary: "Detects repository saturation and applies the edge-based liveness verification twist.",
   },
   {
     label: "Agri-Drone Aerial Spraying (Hardware & Budget Risk)",
     idea: "Autonomous crop disease aerial spraying drone using custom multispectral cameras and LiDAR",
     summary: "Requires physical UAV + LiDAR + $650 budget. Catches hardware dependency gaps.",
-  },
-  {
-    label: "Face Recognition Attendance (Undergraduate Cliché)",
-    idea: "Face recognition based student attendance system using OpenCV and webcam",
-    summary: "Detects repository saturation and applies the edge-based liveness verification twist.",
   },
   {
     label: "TinyML Keyword Spotter (Feasible Low-Resource)",

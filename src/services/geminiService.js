@@ -17,7 +17,7 @@ export function setStoredApiKey(key) {
 }
 
 export function getStoredModel() {
-  return localStorage.getItem(MODEL_KEY) || 'gemini-2.5-flash';
+  return localStorage.getItem(MODEL_KEY) || 'gemini-flash-lite-latest';
 }
 
 export function setStoredModel(model) {

@@ -8,11 +8,20 @@ import {
   ArrowRight, 
   ArrowLeft, 
   Zap, 
+  Sparkles,
   CheckCircle2, 
   AlertCircle,
   HelpCircle
 } from 'lucide-react';
-import { DEMO_STUDENT_PROFILE, DEMO_RAW_IDEA, ALTERNATIVE_DEMO_IDEAS } from '../data/demoScenario';
+import { 
+  DEMO_STUDENT_PROFILE, 
+  DEMO_RAW_IDEA, 
+  DEMO_SCENARIO_A_PROFILE, 
+  DEMO_SCENARIO_A_IDEA, 
+  DEMO_SCENARIO_B_PROFILE, 
+  DEMO_SCENARIO_B_IDEA, 
+  ALTERNATIVE_DEMO_IDEAS 
+} from '../data/demoScenario';
 
 const BRANCH_OPTIONS = [
   "Computer Science & Engineering",
@@ -105,12 +114,21 @@ export default function OnboardingWizard({
     });
   };
 
-  const handleLoadDemo = () => {
-    setProfile(DEMO_STUDENT_PROFILE);
-    setRawIdea(DEMO_RAW_IDEA);
+  const handleLoadDemoA = () => {
+    setProfile(DEMO_SCENARIO_A_PROFILE);
+    setRawIdea(DEMO_SCENARIO_A_IDEA);
     setCurrentStep(5);
     setValidationError("");
   };
+
+  const handleLoadDemoB = () => {
+    setProfile(DEMO_SCENARIO_B_PROFILE);
+    setRawIdea(DEMO_SCENARIO_B_IDEA);
+    setCurrentStep(5);
+    setValidationError("");
+  };
+
+  const handleLoadDemo = handleLoadDemoA; // compatibility alias
 
   const validateAndProceed = () => {
     if (currentStep === 1) {
@@ -166,15 +184,26 @@ export default function OnboardingWizard({
             </h2>
           </div>
 
-          <button
-            type="button"
-            className="btn btn-accent-cyan btn-sm"
-            onClick={handleLoadDemo}
-            title="Pre-fills the official hackathon demo scenario (Computer Science, 12 weeks, CPU only, 3D Medical AI)"
-          >
-            <Zap size={14} />
-            <span>Load Demo Scenario</span>
-          </button>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              className="btn btn-accent-cyan btn-sm"
+              onClick={handleLoadDemoA}
+              title="Loads Scenario A: 3-person CS team, 12w, CPU-only, 3D Medical AI (Unrealistic)"
+            >
+              <Zap size={14} />
+              <span>Load Demo Scenario</span>
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={handleLoadDemoB}
+              title="Loads Scenario B: 2-person team, 10w, CPU-only, Face Recognition Attendance (Cliché)"
+            >
+              <Sparkles size={14} />
+              <span>Scenario B (Face Attendance)</span>
+            </button>
+          </div>
         </div>
 
         {/* Progress Dots Bar */}

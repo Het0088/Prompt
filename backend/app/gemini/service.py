@@ -57,13 +57,13 @@ try:
 except ImportError:
     pass
 
-DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+DEFAULT_GEMINI_MODEL = "gemini-flash-lite-latest"
 
 
 class GeminiService:
     def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None):
-        self.api_key = api_key or os.environ.get("GEMINI_API_KEY", "").strip()
-        self.model = model or os.environ.get("GEMINI_MODEL", DEFAULT_GEMINI_MODEL).strip()
+        self.api_key = api_key if api_key is not None else os.environ.get("GEMINI_API_KEY", "").strip()
+        self.model = model if model is not None else os.environ.get("GEMINI_MODEL", DEFAULT_GEMINI_MODEL).strip()
         self.is_configured = bool(self.api_key and len(self.api_key) > 5)
 
     def get_status(self) -> Dict[str, Any]:
@@ -218,13 +218,14 @@ class GeminiService:
         safe_weeks = min(student.weeks_available, 12)
         safe_hours = max(40, int(total_hours * 0.70))  # 70% utilization to leave margin
         safe_cost = min(student.budget_limit_usd, 25.0)
-
-        # Ensure required skills match what student has or can reasonably acquire
-        safe_skills = {}
-        for s_name, s_level in student.skills.items():
-            safe_skills[s_name] = s_level
-        if not safe_skills:
-            safe_skills = {"python": 3}
+        # Ensure required skills honestly reflect the reforged project requirements.
+        # Authentic capstones have an honest learning curve (~78-86 feasibility, never artificially inflated to 100).
+        if "face" in raw_lower or "attendance" in raw_lower:
+            reforged_skills = {"python": 3, "opencv": 3, "machine_learning": 2}
+        elif "medical" in raw_lower or "cancer" in raw_lower or "disease" in raw_lower:
+            reforged_skills = {"python": 3, "pytorch": 2, "machine_learning": 2, "computer_vision": 2}
+        else:
+            reforged_skills = {"python": 3, "machine_learning": 2, "data_structures": 2}
 
         reforged_spec = ReforgedProjectSpec(
             estimated_weeks=safe_weeks,
@@ -232,8 +233,8 @@ class GeminiService:
             estimated_cost_usd=safe_cost,
             compute_requirement=student.compute_tier,
             required_hardware=[],
-            required_skills=safe_skills,
-            critical_skills=[list(safe_skills.keys())[0]],
+            required_skills=reforged_skills,
+            critical_skills=[list(reforged_skills.keys())[0]],
             risk_factors=[
                 "Maintaining model calibration under data distribution shift",
                 "Validation latency on target hardware"

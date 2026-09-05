@@ -3,7 +3,7 @@
 
 export const PROMPT_SYSTEM_ARCHITECTURE = {
   version: "2.4.0-PromptWars-Parul",
-  modelTarget: "gemini-2.5-flash / gemini-1.5-flash",
+  modelTarget: "gemini-flash-lite-latest",
   pipelinePhases: [
     {
       phase: "Phase 1: Idea Synthesis & Cliché Buster",

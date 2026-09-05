@@ -15,7 +15,7 @@ vi.mock('../services/apiService', async () => {
       success: true,
       data: {
         gemini_status: "active",
-        model_used: "gemini-2.5-flash",
+        model_used: "gemini-flash-lite-latest",
         audit: {
           hidden_assumptions: ["Assumes clinical ground-truth datasets are readily available."],
           technical_risks: ["Intractable 3D convolution memory scaling."],

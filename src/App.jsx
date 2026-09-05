@@ -121,7 +121,7 @@ export default function App() {
           <span style={{ color: 'var(--border-medium)', margin: '0 4px' }}>•</span>
           <span style={{ color: geminiStatus.configured ? 'var(--emerald-400)' : 'var(--amber-400)' }}>
             <strong>Gemini AI: </strong>
-            {geminiStatus.configured ? `Active (${geminiStatus.model || 'gemini-2.5-flash'})` : 'Deterministic Fallback Mode'}
+            {geminiStatus.configured ? `Active (${geminiStatus.model || 'gemini-flash-lite-latest'})` : 'Deterministic Fallback Mode'}
           </span>
         </div>
 

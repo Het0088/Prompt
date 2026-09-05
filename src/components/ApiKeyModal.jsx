@@ -118,7 +118,7 @@ export default function ApiKeyModal({ isOpen, onClose }) {
             }}>
               <div><span style={{ color: 'var(--text-tertiary)' }}># 1. Open .env or set environment variable:</span></div>
               <div>GEMINI_API_KEY="your_gemini_api_key_here"</div>
-              <div>GEMINI_MODEL="gemini-2.5-flash"</div>
+              <div>GEMINI_MODEL="gemini-flash-lite-latest"</div>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>

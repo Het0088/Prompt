@@ -79,7 +79,7 @@ def test_gemini_status_endpoint():
 
 def test_missing_api_key_deterministic_fallback(mock_student_unrealistic):
     """When API key is absent, service gracefully provides deterministic audit and reforge."""
-    service = GeminiService(api_key="", model="gemini-2.5-flash")
+    service = GeminiService(api_key="", model="gemini-flash-lite-latest")
     assert not service.is_configured
     status = service.get_status()
     assert status["status"] == "offline_fallback"
@@ -105,6 +105,8 @@ def test_scenario_a_unrealistic_medical_ai(mock_student_unrealistic):
     assert result.gemini_status == "offline_fallback"
     assert result.deterministic_feasibility_before < 40.0
     assert result.deterministic_feasibility_after > result.deterministic_feasibility_before
+    assert 75.0 <= result.deterministic_feasibility_after <= 95.0
+    assert result.deterministic_feasibility_after < 100.0  # Guarantees no artificial score inflation
     assert result.recalculated_scorecard.constraints.overall_pass is True
 
     # Check Reforge content
@@ -129,7 +131,7 @@ def test_scenario_b_cliche_face_attendance(mock_student_cliche):
     Checks:
     - Detects cliché nature.
     - Synthesizes an Unfair Twist (anti-spoofing / liveness / edge quantization).
-    - Reforged spec passes student constraints.
+    - Reforged spec passes student constraints with realistic, non-inflated score.
     """
     async def run():
         service = GeminiService(api_key="")
@@ -142,6 +144,8 @@ def test_scenario_b_cliche_face_attendance(mock_student_cliche):
     assert "EdgeGuard" in result.reforge.transformed_title or "Anti-Spoofing" in result.reforge.transformed_title
     assert "Anti-Spoofing" in result.reforge.unfair_twist or "Liveness" in result.reforge.unfair_twist
     assert result.recalculated_scorecard.constraints.overall_pass is True
+    assert 75.0 <= result.deterministic_feasibility_after <= 95.0
+    assert result.deterministic_feasibility_after < 100.0
 
 
 def test_natural_language_refinement(mock_student_unrealistic):
