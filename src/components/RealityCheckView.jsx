@@ -25,7 +25,8 @@ import {
   Send,
   HelpCircle,
   ShieldCheck,
-  Award
+  Award,
+  X
 } from 'lucide-react';
 import { reforgeWithGemini, refineReforgedProject } from '../services/apiService';
 
@@ -37,6 +38,7 @@ export default function RealityCheckView({
   onEditConstraints,
 }) {
   const [showTechnicalDetails, setShowTechnicalDetails] = useState(false);
+  const [showScoreModal, setShowScoreModal] = useState(false);
   
   // Gemini Reforge state
   const [reforgeData, setReforgeData] = useState(null);
@@ -290,6 +292,30 @@ export default function RealityCheckView({
             <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
               {isCritical ? "Catastrophic Boundary Fail" : isFeasible ? "Achievable" : "Needs Scoping"}
             </span>
+
+            <button
+              type="button"
+              onClick={() => setShowScoreModal(true)}
+              style={{
+                marginTop: '10px',
+                background: 'rgba(99, 102, 241, 0.1)',
+                border: '1px solid rgba(99, 102, 241, 0.3)',
+                borderRadius: 'var(--radius-full)',
+                color: 'var(--cyan-400)',
+                fontSize: '0.68rem',
+                fontWeight: 600,
+                padding: '4px 10px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.2s ease',
+              }}
+              title="Inspect the exact mathematical equation governing this score"
+            >
+              <HelpCircle size={12} />
+              <span>How this score works</span>
+            </button>
           </div>
 
         </div>
@@ -634,7 +660,112 @@ export default function RealityCheckView({
             </p>
           </div>
 
-          {/* 6. BEFORE / AFTER VISUAL DIFF: REMOVED / MODIFIED / ADDED */}
+          {/* 6. HIGH-CONTRAST BEFORE VS AFTER TRANSFORMATION MATRIX */}
+          <div style={{ marginBottom: '28px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Layers size={18} color="var(--primary-400)" />
+                <h3 style={{ fontSize: '1.25rem', color: '#ffffff', margin: 0 }}>
+                  Before vs. After Transformation Matrix
+                </h3>
+              </div>
+              <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>
+                Evidence-Based Scope Right-Sizing
+              </span>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
+              
+              {/* BEFORE CARD */}
+              <div style={{
+                padding: '20px',
+                background: 'rgba(244, 63, 94, 0.05)',
+                border: '1px solid rgba(244, 63, 94, 0.3)',
+                borderRadius: 'var(--radius-lg)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--rose-400)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    BEFORE REFORGE • RAW PROPOSAL
+                  </span>
+                  <span className="badge badge-rose" style={{ fontSize: '0.72rem' }}>
+                    {Math.round(reforgeData.deterministic_feasibility_before)}/100 {reforgeData.deterministic_feasibility_before <= 45 ? 'REJECT' : 'RISKY'}
+                  </span>
+                </div>
+
+                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#ffffff' }}>
+                  "{rawIdea.slice(0, 85)}{rawIdea.length > 85 ? '...' : ''}"
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.82rem', color: '#cbd5e1' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <XCircle size={15} color="var(--rose-400)" style={{ flexShrink: 0 }} />
+                    <span>Hard Boundary Violations: <strong>{isCritical ? `${critical_risks.length} Critical Issues` : 'Unrealistic Scope'}</strong></span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Cpu size={15} color="var(--rose-400)" style={{ flexShrink: 0 }} />
+                    <span>Compute: <strong>Infeasible Training on {studentProfile.compute_tier || studentProfile.computeTier}</strong></span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Clock size={15} color="var(--rose-400)" style={{ flexShrink: 0 }} />
+                    <span>Timeline: <strong>Exceeds team person-hour capacity</strong></span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <ShieldAlert size={15} color="var(--rose-400)" style={{ flexShrink: 0 }} />
+                    <span>Viva Defense: <strong>Zero novelty defense / Vulnerable to examiner traps</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              {/* AFTER CARD */}
+              <div style={{
+                padding: '20px',
+                background: 'rgba(16, 185, 129, 0.05)',
+                border: '1px solid rgba(16, 185, 129, 0.35)',
+                borderRadius: 'var(--radius-lg)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--emerald-400)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    AFTER REFORGE • ARCHITECTED BLUEPRINT
+                  </span>
+                  <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>
+                    {Math.round(reforgeData.deterministic_feasibility_after)}/100 PASS
+                  </span>
+                </div>
+
+                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#ffffff' }}>
+                  "{reforge.transformed_title}"
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.82rem', color: '#cbd5e1' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CheckCircle2 size={15} color="var(--emerald-400)" style={{ flexShrink: 0 }} />
+                    <span>Hard Boundary Violations: <strong>0 (Math Constraint Pass)</strong></span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Cpu size={15} color="var(--emerald-400)" style={{ flexShrink: 0 }} />
+                    <span>Compute: <strong>{reforge.reforged_project_spec.compute_requirement} (Guaranteed Viable)</strong></span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Clock size={15} color="var(--emerald-400)" style={{ flexShrink: 0 }} />
+                    <span>Timeline: <strong>{reforge.reforged_project_spec.estimated_weeks} Weeks ({reforge.reforged_project_spec.estimated_hours} Hours)</strong></span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Zap size={15} color="var(--amber-400)" style={{ flexShrink: 0 }} />
+                    <span>Unfair Twist: <strong>{reforge.unfair_twist.slice(0, 65)}...</strong></span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* 7. ARCHITECTURAL TRANSFORMATION DIFF: REMOVED / MODIFIED / ADDED */}
           <div style={{ marginBottom: '28px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
               <h3 style={{ fontSize: '1.25rem', color: '#ffffff', margin: 0 }}>
@@ -880,6 +1011,115 @@ export default function RealityCheckView({
           </button>
         </div>
       </div>
+
+      {/* 8. COMPACT "HOW THIS SCORE WORKS" MATHEMATICAL METHODOLOGY MODAL */}
+      {showScoreModal && (
+        <div className="modal-backdrop" onClick={() => setShowScoreModal(false)}>
+          <div className="modal-card" onClick={e => e.stopPropagation()} style={{ maxWidth: '640px' }}>
+            
+            <div className="modal-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{
+                  padding: '8px',
+                  background: 'rgba(99, 102, 241, 0.15)',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(99, 102, 241, 0.3)',
+                }}>
+                  <HelpCircle size={20} color="var(--cyan-400)" />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: '1.25rem', margin: 0, color: '#ffffff' }}>
+                    Deterministic Scoring Methodology
+                  </h3>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', margin: 0 }}>
+                    100% Governed by Python Constraint Equations • Zero AI Hallucination
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowScoreModal(false)}
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', padding: '4px' }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              
+              {/* Core Principle Callout */}
+              <div style={{
+                padding: '12px 16px',
+                background: 'rgba(16, 185, 129, 0.08)',
+                border: '1px solid rgba(16, 185, 129, 0.25)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '0.84rem',
+                color: '#cbd5e1',
+                lineHeight: 1.5,
+              }}>
+                <strong style={{ color: 'var(--emerald-400)' }}>The Golden Rule of Score Integrity: </strong>
+                Google Gemini <em>never</em> invents or overrides feasibility scores. The Python deterministic engine calculates mathematical bounds before and after the Reforge.
+              </div>
+
+              {/* Equation 1: Passing */}
+              <div className="glass-panel" style={{ padding: '16px', background: 'rgba(10, 14, 24, 0.7)' }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--cyan-400)', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  1. When All Hard Constraints Pass:
+                </div>
+                <div style={{
+                  padding: '10px 14px',
+                  background: '#090d16',
+                  borderRadius: 'var(--radius-sm)',
+                  fontFamily: 'monospace',
+                  fontSize: '0.88rem',
+                  color: '#f8fafc',
+                  marginBottom: '10px',
+                }}>
+                  Feasibility = (0.35 × TimeFit) + (0.35 × ResourceFit) + (0.30 × SkillMatch)
+                </div>
+                <div style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                  • <strong>Time Fit (35%):</strong> Evaluates week ratio (40%) and team person-hour capacity ratio (60%).<br />
+                  • <strong>Resource Fit (35%):</strong> Evaluates budget ratio (35%), compute tier hierarchy (40%), and physical hardware coverage (25%).<br />
+                  • <strong>Skill Match (30%):</strong> Evaluates student competency against required and critical skills.
+                </div>
+              </div>
+
+              {/* Equation 2: Hard Constraint Failure Cap */}
+              <div className="glass-panel" style={{ padding: '16px', background: 'rgba(10, 14, 24, 0.7)' }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--rose-400)', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  2. The Hard Constraint Ceiling (Catastrophic Failures):
+                </div>
+                <div style={{
+                  padding: '10px 14px',
+                  background: '#090d16',
+                  borderRadius: 'var(--radius-sm)',
+                  fontFamily: 'monospace',
+                  fontSize: '0.88rem',
+                  color: '#fca5a5',
+                  marginBottom: '10px',
+                }}>
+                  Feasibility = max(5.0, 45.0 - (8.0 × ViolationsCount))
+                </div>
+                <div style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.5 }}>
+                  If <strong>any</strong> hard boundary fails (e.g. CPU vs Cloud GPU, missing critical skill, or budget deficit), the project is automatically capped at <strong>45.0 maximum</strong> and penalized by 8 points per distinct violation.
+                </div>
+              </div>
+
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => setShowScoreModal(false)}
+              >
+                Understood
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </div>
   );

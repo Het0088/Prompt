@@ -147,7 +147,7 @@ export default function App() {
           <span className="pulse-dot" style={{ background: backendHealthy ? 'var(--emerald-400)' : 'var(--amber-400)' }} />
           <span>
             <strong>Deterministic Core: </strong> 
-            {backendHealthy ? 'Active' : 'Connecting...'}
+            {backendHealthy ? 'Active (Render)' : 'Connecting / Waking up...'}
           </span>
           <span style={{ color: 'var(--border-medium)', margin: '0 4px' }}>•</span>
           <span style={{ color: geminiStatus.configured ? 'var(--emerald-400)' : 'var(--amber-400)' }}>
@@ -157,8 +157,8 @@ export default function App() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span className="badge badge-indigo" style={{ fontSize: '0.72rem' }}>Milestone 3</span>
-          <span style={{ color: '#cbd5e1' }}>Deterministic Foundation + Gemini Flash Reasoning</span>
+          <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>Final Submission</span>
+          <span style={{ color: '#cbd5e1' }}>Deterministic Mathematical Core + Gemini Flash Reasoning</span>
         </div>
       </div>
 
@@ -264,7 +264,7 @@ export default function App() {
             Forge<span className="text-gradient">Grad</span> AI
           </span>
           <span style={{ color: 'var(--text-tertiary)', fontSize: '0.82rem' }}>
-            • Google PromptWars 2026 Edition • Milestone 3 Gemini Intelligence Layer
+            • Google PromptWars 2026 Edition • Production Intelligence Layer
           </span>
         </div>
 

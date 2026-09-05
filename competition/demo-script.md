@@ -1,80 +1,68 @@
-# 🎤 ForgeGrad AI — PromptWars 3-Minute Stage Pitch & Demo Script
+# ⏱️ ForgeGrad AI — Exact 90-Second Stage Pitch & Demo Script
 
-**Target Time**: 2 minutes 45 seconds  
-**Presenters**: Capstone Architect & AI Engineer  
-**Live Application**: [ForgeGrad AI](http://localhost:5173/)  
-
----
-
-## ⏱️ 0:00 – 0:25 | The Hook & Universal Problem
-
-> *"Judges, professors, fellow engineers: Before you let an undergraduate engineering team build their final-year capstone, ask one single question:*  
-> **Can it survive reality?**  
->  
-> *Every single year, thousands of students pick flashy ideas from Reddit or ChatGPT — like real-time 3D medical diagnosis or facial recognition attendance — without realizing they lack the GPU, the 400 hours of training time, or the mathematical defenses needed to survive their final viva examination.  
-> Four months later, their models don't converge, they run out of cloud credits, and external examiners tear their presentations apart.  
->  
-> Existing AI tools merely hallucinate more unfeasible ideas.  
-> **ForgeGrad AI is the first AI Project Reality Check and Architectural Reforge Engine.**"*
+**Competition**: Google for Developers × Hack2Skill PromptWars Hackathon  
+**Target Duration**: 90 Seconds (Strict Competition Format)  
+**Live Application**: [https://forgegradai.vercel.app/](https://forgegradai.vercel.app/)  
+**Backend Core**: [https://prompt-l2ho.onrender.com](https://prompt-l2ho.onrender.com)  
 
 ---
 
-## ⏱️ 0:25 – 1:15 | Scenario A: The Impossible Ambition (Real-Time 3D Medical AI)
+### ⏱️ 0:00 – 0:10 | The Problem (Universal Capstone Crisis)
+**[Presenter speaks with conviction, facing the jury]**
+> *"Judges: Every year, thousands of engineering students waste an entire semester building doomed capstone projects. They pick flashy ideas from ChatGPT without realizing they lack the GPU, the hours, or the novel defenses to survive their final viva examination. Generic AI tools merely hallucinate more unfeasible ideas. **ForgeGrad AI doesn't just generate your capstone — it tries to prove whether you can actually finish it.**"*
 
-**[Action: Click 'Load Demo Scenario' (Scenario A) in Top Header]**
+---
 
-> *"Notice what just loaded with one click: A typical team of 3 Computer Science students with 12 weeks, 15 hours a week, and zero cloud budget — working strictly on CPU hardware with basic Python and Scikit-learn.  
-> Their proposed project? 'Real-time AI medical diagnosis using large 3D medical images'."*
+### ⏱️ 0:10 – 0:25 | The Bad Idea (Scenario A: The Overambitious Trap)
+**[Action: Click 'Load Demo Scenario' (Scenario A) in Top Header or Onboarding Wizard]**
+> *"Notice what loaded with one click: A typical team of 3 Computer Science undergraduates with 12 weeks, 15 hours a week, and zero cloud budget — working strictly on CPU laptops with foundational Python.  
+> Their proposed project? **'Autonomous multi-camera surgical robotics pipeline with custom 3D UNet fine-tuning.'**"*
 
-**[Action: Click 'Run Project Reality Check']**
+---
 
+### ⏱️ 0:25 – 0:40 | The Reality Check (Deterministic Math Verdict)
+**[Action: Click 'Run Project Reality Check' button]**
 > *"Instantly, ForgeGrad's **Deterministic Constraint Engine** calculates the cold mathematical truth:  
-> **Feasibility: 13.8 / 100 — REJECT.**  
->  
-> Notice that this failure is **Deterministic Fact**, not an LLM guess:  
-> 1. Compute violation: 3D CT/MRI convolutional volumes require at least 24GB of CUDA VRAM; they have CPU-only.  
-> 2. Timeline violation: Volume preprocessing and model training require 380 hours; the team only has 120 hours.  
-> 3. Examiner Trap: External medical viva examiners will demand clinical IRB approvals and HIPAA-compliant data pipelines."*
+> **Feasibility: 13 / 100 — UNREALISTIC REJECT.**  
+> Notice that this score is pure Python constraint math, not an LLM hallucination:  
+> 1. Compute violation: 3D multi-camera UNet demands 24GB CUDA VRAM; they have CPU-only.  
+> 2. Timeline violation: Volume training requires 380 hours; the team has only 120 available.  
+> 3. Hard Boundary Rule: Any violation caps feasibility at 45.0 maximum with an 8-point penalty per failure."*
 
 ---
 
-## ⏱️ 1:15 – 2:05 | The Gemini Reforge & Unfair Twist
-
-> *"Now watch how Google Gemini intervenes. Instead of telling the students to give up, Gemini acts as an adversarial research advisor."*
-
-**[Action: Scroll to Stage 3: Reforged Architecture & Unfair Twist]**
-
-> *"Look at the architectural pivot:  
-> Gemini reforged the impossible 3D project into:  
-> **'Lightweight 2D Pediatric Pneumonia Screening on CPU: Optimizing MobileNetV3 Quantization and Calibration for Edge Deployment'.**  
->  
-> And here is the **Unfair Twist** — the competitive differentiator that guarantees top grades:  
-> Instead of unfeasible deep 3D training, the team implements **Monte Carlo Dropout and Temperature Scaling** to output an explicit, mathematically calibrated 'Reject / Send to Human Radiologist' flag for ambiguous scans.  
->  
-> Now look at the Feasibility Dial:  
-> **The score jumped from 13/100 to 88/100 (PASS).**  
-> And notice the transparency: This is NOT an artificial 100/100 score. The deterministic engine verified that Time Fit is 99%, Resource Fit is 100%, and Skill Match is 63% with an honest moderate learning burden."*
+### ⏱️ 0:40 – 0:60 | Gemini Deep Audit + Reforge
+**[Action: Scroll to Stage 2: Deep Reality Audit & Reforged Blueprint]**
+> *"Now watch Google Gemini intervene. In a single 2-second structured Flash call, Gemini acts as an adversarial viva examiner:  
+> It diagnoses the fatal clinical IRB dataset trap and memory bottleneck, then completely reforges the architecture into:  
+> **'Lightweight Instrument Edge-Localization and Occlusion Detection via Classical Computer Vision on CPU'**.  
+> The impossible 3D volume training is replaced with optimized OpenCV edge tracking and probabilistic state estimation."*
 
 ---
 
-## ⏱️ 2:05 – 2:35 | Natural Language Refinement & Scenario B
-
-**[Action: Click Quick Action Preset 'Tighten timeline to 8 weeks']**
-
-> *"What if midterm dates shift? The student simply types or clicks: 'We only have 8 weeks'.  
-> In one single structured Gemini call, the project adapts: training loops are replaced with pre-trained frozen backbones and post-training quantization. The deterministic timeline instantly revalidates for an 8-week horizon."*
-
-**[Action: Click 'Scenario B (Face Attendance)' in Header]**
-
-> *"And what about the single most overused project in Indian engineering colleges?  
-> 'AI Face Recognition Attendance System'.  
-> ForgeGrad catches the cliché immediately, slashes its novelty score to 25%, detects extreme vulnerability to 2D photo-replay spoofing, and reforges it into **Privacy-Preserving Edge Liveness Verification with Local Vector Embeddings**."*
+### ⏱️ 0:60 – 0:75 | Before vs. After Score Transformation
+**[Action: Highlight the Before vs. After Transformation Matrix Card]**
+> *"Look at the Transformation Matrix:  
+> Before: 13/100, 4 Failed Constraints, Infeasible 3D Multi-Camera on CPU.  
+> After: **88/100 — PASS.**  
+> And observe our score integrity: This is NOT an artificial 100/100 score. The deterministic engine re-evaluated the new specification with the exact same equations: Time Fit is 98%, Resource Fit is 100%, and Skill Match is 66% with an honest moderate learning burden."*
 
 ---
 
-## ⏱️ 2:35 – 3:00 | The Closer
+### ⏱️ 0:75 – 0:90 | The Unfair Twist + Natural Language Refinement
+**[Action: Point to The Unfair Twist, then click preset chip '⚡ We only have 8 weeks']**
+> *"Here is the **Unfair Twist** that wins top marks in examinations:  
+> Real-time sub-millisecond bounding box tracking with probabilistic occlusion confidence scores running entirely locally on CPU.  
+> And what if the college shifts midterm deadlines? We click **'We only have 8 weeks'**.  
+> In one structured Gemini interaction, the roadmap contracts to an 8-week horizon, and the deterministic timeline instantly re-validates to pass.  
+> **ForgeGrad AI: Stop building doomed projects. Start building defendable engineering.** Thank you."*
 
-> *"Judges, ForgeGrad AI doesn't just help students think of projects.  
-> **It helps them avoid spending four months building the wrong one.**  
-> Built with React, FastAPI, deterministic constraint equations, and Google Gemini Flash intelligence.  
-> Thank you."*
+---
+
+## 🎯 Jury Q&A Preparedness (Cheat Sheet)
+
+| Potential Judge Question | Crisp 15-Second Defense |
+| :--- | :--- |
+| **"Is Gemini calculating the feasibility score?"** | *"Never. Gemini only rewrites the technical specification (weeks, hours, compute tier, skills). Our Python deterministic engine calculates mathematical constraint equations before and after the Reforge."* |
+| **"How is this different from asking ChatGPT for an idea?"** | *"ChatGPT suffers from Feasibility Blindness. It doesn't know your laptop lacks an NVIDIA GPU or that your team has only 120 hours. ForgeGrad stress-tests constraints first, then enforces them."* |
+| **"How are API keys secured in production?"** | *"Zero client-side key exposure. No keys in `localStorage` or browser bundles. All requests route server-side via FastAPI on Render with strict CORS whitelisting."* |

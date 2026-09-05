@@ -144,6 +144,75 @@ def infer_project_requirements_from_raw_idea(raw_idea: str, student: StudentProf
         critical_skills = ["c"]
         risk_factors = ["Lattice cryptography key size fragmentation over standard MTU frames"]
 
+    # Pattern 6: Blockchain / Web3 / Smart Contracts
+    elif any(k in text for k in ["blockchain", "smart contract", "solidity", "web3", "ethereum", "nft", "crypto", "dao"]):
+        domain = "Distributed Systems / Blockchain"
+        weeks = max(14, student.weeks_available)
+        hours = max(360, student.total_available_hours)
+        cost = max(80.0, student.budget_limit_usd)
+        compute = ComputeTier.CPU_ONLY
+        novelty = 45.0
+        required_skills = {"python": 3, "distributed_systems": 2}
+        if any(s in text for s in ["solidity", "smart contract", "ethereum"]):
+            required_skills["solidity"] = 3
+            critical_skills = ["solidity"]
+        else:
+            critical_skills = []
+        risk_factors = [
+            "Testnet gas fee volatility and reentrancy/integer overflow smart contract exploit vulnerabilities",
+            "Examiner trap: Lack of real-world oracle integration; decentralized apps without physical state verification are dismissed as trivial token wrappers",
+            "Immutable deployment risk: Contract bugs cannot be hot-patched during viva demonstrations",
+        ]
+        custom_transformed_title = "Verifiable Multi-Party Oracle State Anchoring via Layer-2 Rollup Commitments"
+        custom_pivot = "Pivot from a toy token or NFT marketplace to an auditable, zero-knowledge batch-settlement oracle on an Ethereum testnet."
+
+    # Pattern 7: Generic CRUD / Full-Stack Clones (E-Commerce, Food Delivery, Chat)
+    elif any(k in text for k in ["e-commerce", "ecommerce", "food delivery", "social media clone", "chat app", "store clone", "portfolio generator"]):
+        domain = "Full-Stack Web Systems"
+        weeks = min(student.weeks_available, 10)
+        hours = min(student.total_available_hours, 200)
+        compute = ComputeTier.CPU_ONLY
+        novelty = 20.0  # Heavily saturated tutorial clone
+        required_skills = {"javascript": 3, "fullstack": 3, "sql": 2}
+        risk_factors = [
+            "Extreme undergraduate cliché: External examiners instantly downgrade standard MERN/Firebase CRUD apps for zero algorithmic novelty",
+            "Lack of scalability engineering: Fails when evaluated for concurrent read/write locks, idempotency, or database indexing under high throughput",
+        ]
+        custom_transformed_title = "Event-Driven Idempotent Order-Processing Engine with Distributed Dead-Letter Queuing"
+        custom_pivot = "Transform a standard CRUD storefront into a resilient distributed transaction benchmark measuring p99 tail latency under simulated concurrent loads."
+
+    # Pattern 8: Cybersecurity / Network IDS / Malware Detection
+    elif any(k in text for k in ["intrusion detection", "ids", "malware", "phishing", "ddos", "network traffic", "pcap", "firewall"]):
+        domain = "Cybersecurity / Network Security"
+        weeks = max(14, student.weeks_available)
+        hours = max(380, student.total_available_hours)
+        cost = max(50.0, student.budget_limit_usd)
+        compute = ComputeTier.CPU_ONLY if student.compute_tier == ComputeTier.CPU_ONLY else ComputeTier.LOCAL_GPU
+        required_skills = {"python": 3, "networking": 3, "machine_learning": 3}
+        critical_skills = ["networking"]
+        risk_factors = [
+            "Outdated benchmark trap: External examiners routinely penalize using 25-year-old KDD99/NSL-KDD datasets with synthetic traffic",
+            "Extreme class imbalance: 99.9% benign packets cause models to exhibit high false-alarm fatigue in production networks",
+        ]
+        custom_transformed_title = "Real-Time PCAP Stream Anomaly Detection with Adversarial Perturbation Hardening"
+        custom_pivot = "Upgrade static CSV classifier to streaming network flow anomaly triage on modern datasets (e.g. CIC-IDS2017) with evasion testing."
+
+    # Pattern 9: IoT / Embedded Hardware / Smart Sensors
+    elif any(k in text for k in ["iot", "smart home", "arduino", "esp32", "sensor network", "wearable", "smart agriculture"]):
+        domain = "IoT / Embedded Hardware"
+        weeks = max(14, student.weeks_available)
+        hours = max(360, student.total_available_hours)
+        cost = max(80.0, student.budget_limit_usd + 40.0)
+        hardware = ["esp32_or_arduino", "sensor_modules"]
+        required_skills = {"embedded_c": 3, "iot_protocols": 2}
+        critical_skills = ["embedded_c"]
+        risk_factors = [
+            "Hardware fragility trap: Microcontroller sensor loose wiring and brownouts frequently kill live viva demonstrations",
+            "Duty-cycle power constraints: Continuous Wi-Fi telemetry drains battery power in under 4 hours without deep-sleep scheduling",
+        ]
+        custom_transformed_title = "Ultra-Low-Power TinyML Sensor Anomaly Detector with Deep-Sleep Duty Cycling"
+        custom_pivot = "Replace dumb continuous cloud telemetry with local INT8 TinyML inference running on the MCU to minimize radio transmission by 95%."
+
     return Project(
         id="ad-hoc-idea",
         title=raw_idea[:60].strip() or "Undergraduate Proposal",
