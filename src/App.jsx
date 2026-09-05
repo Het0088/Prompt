@@ -96,6 +96,7 @@ export default function App() {
         onOpenPromptInspector={() => setIsPromptInspectorOpen(true)}
         activeTab={currentView}
         setActiveTab={setCurrentView}
+        geminiStatus={geminiStatus}
       />
 
       {/* Backend Status Strip */}
@@ -192,8 +193,8 @@ export default function App() {
           </div>
         )}
 
-        {/* ONBOARDING WIZARD VIEW */}
-        {currentView === 'onboarding' && !isLoading && (
+        {/* ONBOARDING WIZARD VIEW (Default / Home View) */}
+        {(currentView !== 'reality-check' || !realityCheckResult) && !isLoading && (
           <OnboardingWizard 
             profile={profile}
             setProfile={setProfile}

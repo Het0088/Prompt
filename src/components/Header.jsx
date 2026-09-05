@@ -1,17 +1,21 @@
 import React from 'react';
-import { Sparkles, Key, Code2, Cpu, GraduationCap, ShieldCheck } from 'lucide-react';
+import { Sparkles, Key, Code2, Cpu, GraduationCap, ShieldCheck, RotateCcw } from 'lucide-react';
 import { getStoredApiKey, getStoredModel } from '../services/geminiService';
 
-export default function Header({ onOpenApiKeyModal, onOpenPromptInspector, activeTab, setActiveTab }) {
-  const hasApiKey = Boolean(getStoredApiKey());
-  const activeModel = getStoredModel();
+export default function Header({ onOpenApiKeyModal, onOpenPromptInspector, activeTab, setActiveTab, geminiStatus }) {
+  const isGeminiActive = Boolean(geminiStatus?.configured || getStoredApiKey());
+  const activeModel = geminiStatus?.model || getStoredModel() || 'gemini-flash-lite-latest';
 
   return (
     <header className="glass-panel" style={{ padding: '16px 28px', margin: '16px 0 0', borderRadius: 'var(--radius-xl)' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         
-        {/* Brand & Badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', cursor: 'pointer' }} onClick={() => setActiveTab('generator')}>
+        {/* Brand & Badge (Returns to Homepage / Generator) */}
+        <div 
+          style={{ display: 'flex', alignItems: 'center', gap: '14px', cursor: 'pointer' }} 
+          onClick={() => setActiveTab('onboarding')}
+          title="Return to ForgeGrad AI Homepage / Capstone Generator"
+        >
           <div style={{ 
             width: '46px', 
             height: '46px', 
@@ -42,6 +46,19 @@ export default function Header({ onOpenApiKeyModal, onOpenPromptInspector, activ
         {/* Global Controls & Status */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
           
+          {/* New Analysis Shortcut if currently viewing Reality Check */}
+          {activeTab === 'reality-check' && (
+            <button 
+              className="btn btn-secondary btn-sm"
+              onClick={() => setActiveTab('onboarding')}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+              title="Return to Capstone Input to evaluate another project idea"
+            >
+              <RotateCcw size={14} />
+              <span>New Analysis</span>
+            </button>
+          )}
+
           {/* AI Engine Status Pill */}
           <div 
             onClick={onOpenApiKeyModal}
@@ -50,22 +67,22 @@ export default function Header({ onOpenApiKeyModal, onOpenPromptInspector, activ
               alignItems: 'center', 
               gap: '8px', 
               padding: '6px 14px', 
-              background: hasApiKey ? 'rgba(16, 185, 129, 0.1)' : 'rgba(99, 102, 241, 0.1)',
-              border: `1px solid ${hasApiKey ? 'rgba(16, 185, 129, 0.3)' : 'rgba(99, 102, 241, 0.25)'}`,
+              background: isGeminiActive ? 'rgba(16, 185, 129, 0.12)' : 'rgba(99, 102, 241, 0.1)',
+              border: `1px solid ${isGeminiActive ? 'rgba(16, 185, 129, 0.35)' : 'rgba(99, 102, 241, 0.25)'}`,
               borderRadius: 'var(--radius-full)',
               cursor: 'pointer',
               transition: 'all 0.2s ease'
             }}
-            title="Click to configure Gemini API Key or change model"
+            title="Click to view Gemini AI Architecture, status & model details"
           >
             <span 
               className="pulse-dot" 
-              style={{ background: hasApiKey ? 'var(--emerald-400)' : '#818cf8' }} 
+              style={{ background: isGeminiActive ? 'var(--emerald-400)' : '#818cf8' }} 
             />
-            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: hasApiKey ? 'var(--emerald-400)' : '#c7d2fe' }}>
-              {hasApiKey ? `Gemini Live (${activeModel})` : 'Neural Simulated Engine'}
+            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: isGeminiActive ? 'var(--emerald-400)' : '#c7d2fe' }}>
+              {isGeminiActive ? `Gemini Live (${activeModel})` : 'Neural Simulated Engine'}
             </span>
-            <Key size={14} color={hasApiKey ? 'var(--emerald-400)' : '#c7d2fe'} />
+            <Key size={14} color={isGeminiActive ? 'var(--emerald-400)' : '#c7d2fe'} />
           </div>
 
           {/* Prompt Architecture Inspector Trigger */}
